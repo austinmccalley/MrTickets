@@ -89,7 +89,7 @@ public class Join implements Listener {
 
                 Statement statement = MySQL.getConnection().createStatement();//Create a statement
                 ResultSet result = statement
-                        .executeQuery("SELECT `staffID` FROM " + staff + " WHERE UUID = '" + uuid.toString() + "'");//Get the players staffID
+                        .executeQuery("SELECT staffID FROM `" + staff + "` WHERE UUID = '" + uuid.toString() + "'");//Get the players staffID
                 result.next();
                 int staffID = result.getInt("staffID");
                 PMessage.Message(p, "Just as a reminder your staff number is #" + staffID, "Normal");//message them their staff id
