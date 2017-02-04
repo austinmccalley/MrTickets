@@ -1,7 +1,9 @@
 package me.Austin.MT.GUIs;
 
-import me.Austin.MT.*;
+import me.Austin.MT.AssignTickets;
+import me.Austin.MT.ClosedTicketHandler;
 import me.Austin.MT.Managers.PMessage;
+import me.Austin.MT.RecentTickets;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -23,6 +25,7 @@ import java.util.UUID;
  * Created by MrMcaustin1 on 12/29/2016.
  * <p>
  * This class manages the Admin Ticket GUI
+ *
  * @author MrMcaustin1
  * @since 1.0
  */
@@ -46,9 +49,13 @@ public class AdminGUIManager implements Listener {
 
 
     /**
-     * @param material The material you want
-     * @param name     Item name
-     * @param lore     Item lore
+     * @param material
+     *         The material you want
+     * @param name
+     *         Item name
+     * @param lore
+     *         Item lore
+     *
      * @return The item all fancy like
      */
     private static ItemStack newItem(Material material, String name, String lore) {
@@ -88,32 +95,44 @@ public class AdminGUIManager implements Listener {
                 e.setCancelled(true); // Prevent collection of items
 
                 if (itemName.equalsIgnoreCase("Important Tickets")) {//Important Tickets
-                    PMessage.Message(p, ImportantTickets.getImportantTickets().toString().replace("[", "").replace("]", "").replace(",", "\n"), "Normal");//Get a list of all the important tickets and remove the brackets and commas
+                    PMessage.Message(p, ChatColor.RED + "This feature will be implemented in version 0.1.0", "Normal");
+                    // PMessage.Message(p, ImportantTickets.getImportantTickets().toString().replace("[", "").replace("]", "").replace(",", "\n"), "Normal");//Get a list of all the important tickets and remove the brackets and commas
+
                 } else if (itemName.equalsIgnoreCase("My Assigned Tickets")) {//Assigned Tickets
-                    //TODO: Assign.assignedTickets(p) add try and catch statement in there
+
 
                     Map<Integer, String> map = AssignTickets.assignedTickets(p);//Set a local map of the assigned tickets of the player
+
+                    System.out.println(map.toString());
+
                     for (Map.Entry<Integer, String> mapEntry : map.entrySet()) {//for each entry in the map
 
                         PMessage.Message(p, "Ticket ID #" + mapEntry.getKey() + " submitted by "
                                 + Bukkit.getPlayer(UUID.fromString(mapEntry.getValue())).getName(), "Normal"); //Message the player its key(ticketID) and its value(Player Name)
+
                     }
+
                     AssignTickets.aTickets.clear();//Clear aTickets to remove duplicates or interference
                     map.clear(); //Clear local map
 
 
                 } else if (itemName.equalsIgnoreCase("Recent Tickets")) {//Recent Tickets
                     //TODO: RecentTickets.recentTickets(p) add try and catch statement in there
+
                     try {
+
                         Map<Integer, String> map = RecentTickets.recentTickets(p);//Set a local map of the recent tickets
+
                         for (Map.Entry<Integer, String> mapEntry : map.entrySet()) {//For each entry in the map
 
                             PMessage.Message(p, "Ticket ID #" + mapEntry.getKey() + " submitted by "
                                     + Bukkit.getPlayer(UUID.fromString(mapEntry.getValue())).getName(), "Normal");//Message the player the key(ticketID) and its value(Player Name)
 
                         }
+
                         RecentTickets.rTickets.clear();//Clear rTickets of all entries
                         map.clear();//Clear local map
+
                     } catch (SQLException e2) {
                         e2.printStackTrace();
                         PMessage.stackTrace();

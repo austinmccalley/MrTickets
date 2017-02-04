@@ -17,22 +17,28 @@ import java.util.HashMap;
  */
 public class RecentTickets {
 
-    public static HashMap<Integer, String> rTickets = new HashMap<>();
 
+    public static HashMap<Integer, String> rTickets = new HashMap<>();
+    //Tables
+    private static String tickets = "`" + Server.getSUUID() + "-tickets`";
 
     /**
      * RecentTickers Class - Returns the recent tickets
      *
-     * @param p Player that runs the command
+     * @param p
+     *         Player that runs the command
+     *
      * @return The 5 most recent tickets
-     * @throws SQLException Just in case MySQL wants to be a dick
+     *
+     * @throws SQLException
+     *         Just in case MySQL wants to be a dick
      */
     public static HashMap<Integer, String> recentTickets(Player p) throws SQLException {
         rTickets.clear();
         int t = 0;
         Statement statement = MySQL.getConnection().createStatement();
         ResultSet r2 = statement
-                .executeQuery("SELECT COUNT(*) FROM " + Server.sUUID + " ORDER BY Date DESC;");
+                .executeQuery("SELECT COUNT(*) FROM " + tickets + " ORDER BY Date DESC;");
         while (r2.next()) {
             t = r2.getInt(1);
         }
@@ -41,7 +47,7 @@ public class RecentTickets {
         }
 
         ResultSet result = statement.executeQuery(
-                "SELECT * FROM " + Server.sUUID + " ORDER BY Date DESC LIMIT " + t + ";");
+                "SELECT * FROM " + tickets + " ORDER BY Date DESC LIMIT " + t + ";");
 
         for (int i = 0; i < t; i++) {
             result.next();

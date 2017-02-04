@@ -22,6 +22,9 @@ import java.util.List;
  */
 public class ClosedTicketHandler {
 
+    //Tables
+    private static String tickets = "`" + Server.getSUUID() + "-tickets`";
+
     /**
      * Get a list of closed tickets of a normal player
      *
@@ -40,7 +43,7 @@ public class ClosedTicketHandler {
             int t = 0;//Initialize the count int
             Statement statement = MySQL.getConnection().createStatement();//Create the statement
             ResultSet r2 = statement
-                    .executeQuery("SELECT COUNT(*) FROM " + Server.sUUID + " WHERE Completed='Closed' AND UUID='" + p.getUniqueId() + "';");//Execute the query
+                    .executeQuery("SELECT COUNT(*) FROM " + tickets + " WHERE Completed='Closed' AND UUID='" + p.getUniqueId() + "';");//Execute the query
             while (r2.next()) {
                 t = r2.getInt(1);//get the count
             }
@@ -49,7 +52,7 @@ public class ClosedTicketHandler {
             }
 
             ResultSet result = statement.executeQuery(
-                    "SELECT *  FROM " + Server.sUUID + " WHERE Completed='Closed' AND UUID='" + p.getUniqueId() + "' LIMIT " + t + ";");//Get all the closed tickets who were submitted by a player
+                    "SELECT *  FROM " + tickets + " WHERE Completed='Closed' AND UUID='" + p.getUniqueId() + "' LIMIT " + t + ";");//Get all the closed tickets who were submitted by a player
 
             for (int i = 0; i < t; i++) {
                 result.next();
@@ -84,7 +87,7 @@ public class ClosedTicketHandler {
 
             Statement statement = MySQL.getConnection().createStatement();//Create the statement
             ResultSet r2 = statement
-                    .executeQuery("SELECT COUNT(*) FROM " + Server.sUUID + " WHERE Completed='Closed' AND Assigned='" + p.getUniqueId().toString() + "';");//Execute the query
+                    .executeQuery("SELECT COUNT(*) FROM " + tickets + " WHERE Completed='Closed' AND Assigned='" + p.getUniqueId().toString() + "';");//Execute the query
 
             while (r2.next()) {
                 t = r2.getInt(1);//Get the total count
@@ -94,7 +97,7 @@ public class ClosedTicketHandler {
             }
 
             ResultSet result = statement.executeQuery(
-                    "SELECT * FROM " + Server.sUUID + " WHERE Completed='Closed' AND Assigned='" + p.getUniqueId().toString() + "' LIMIT " + t + ";");//Get 5 tickets that are closed and assigned to user x
+                    "SELECT * FROM " + tickets + " WHERE Completed='Closed' AND Assigned='" + p.getUniqueId().toString() + "' LIMIT " + t + ";");//Get 5 tickets that are closed and assigned to user x
 
             for (int i = 0; i < t; i++) {
                 result.next();

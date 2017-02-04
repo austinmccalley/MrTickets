@@ -17,6 +17,7 @@ import java.util.List;
  *
  * @author MrMcaustin1
  * @since 1.0
+ * @deprecated
  */
    /*
    Notes
@@ -49,10 +50,10 @@ public class ImportantTickets {
 
                 TicketInfo ti = new TicketInfo();//Create a ticket info
                 //Add all the info
-                ti.tUUID = rs.getString("UUID");
-                ti.ticketID = rs.getInt("TicketID");
-                ti.priority = rs.getString("Priority");
-                ti.date = rs.getDate("Date");
+                TicketInfo.tUUID = rs.getString("UUID");
+                TicketInfo.ticketID = rs.getInt("TicketID");
+                TicketInfo.priority = rs.getString("Priority");
+                TicketInfo.date = rs.getDate("Date");
 
 
                 String tm1 = TicketInfo.ticketStringInfo();//Return all the ticket info as a string
@@ -80,10 +81,10 @@ public class ImportantTickets {
 
                 //Create the ticket and add the info
                 TicketInfo ti = new TicketInfo();
-                ti.tUUID = rs.getString("UUID");
-                ti.ticketID = rs.getInt("TicketID");
-                ti.priority = rs.getString("Priority");
-                ti.date = rs.getDate("Date");
+                TicketInfo.tUUID = rs.getString("UUID");
+                TicketInfo.ticketID = rs.getInt("TicketID");
+                TicketInfo.priority = rs.getString("Priority");
+                TicketInfo.date = rs.getDate("Date");
 
                 String tm1 = TicketInfo.ticketStringInfo();//Set the ticket info as a string
 

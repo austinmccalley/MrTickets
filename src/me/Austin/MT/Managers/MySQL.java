@@ -65,7 +65,7 @@ public class MySQL {
      * @return If the DB is connected
      */
     public static boolean isConnected() {
-        return (con == null ? false : true);
+        return (con != null);
     }
 
     /**
@@ -124,7 +124,6 @@ public class MySQL {
                     " `Date` date NOT NULL,\n" +
                     " `milliseconds` bigint(255) NOT NULL,\n" +
                     " `Priority` text NOT NULL,\n" +
-                    " `RndWrd` text NOT NULL,\n" +
                     " PRIMARY KEY (`TicketID`)\n" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=latin1";
             statement.executeUpdate(sql);

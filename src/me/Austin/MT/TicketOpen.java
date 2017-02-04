@@ -16,30 +16,38 @@ import java.util.UUID;
  * @since 1.0
  */
 public class TicketOpen {
+    //Tables
+    private static String tickets = Server.getSUUID() + "-tickets";
 
     /**
      * Open Ticket Method - Submits the open ticket method to MySQL and logs it
      *
-     * @param p   The player opening the ticket
-     * @param i   The error number the user was assigned
-     * @param msg The message for the ticket
-     * @throws SQLException Just in case there is some shit MySQL wants to do
+     * @param p
+     *         The player opening the ticket
+     * @param i
+     *         The error number the user was assigned
+     * @param msg
+     *         The message for the ticket
+     *
+     * @throws SQLException
+     *         Just in case there is some shit MySQL wants to do
      * @since 1.0
      */
 
     public static void openTicket(Player p, Integer i, String msg) throws SQLException {
         UUID uuid = p.getUniqueId();
-        int error = i;
+        int errorNum = i;
 
         PreparedStatement ps = MySQL.getConnection().prepareStatement(
-                "INSERT IGNORE INTO " + Server.sUUID + " (UUID, Error, Message, Completed, Assigned, Date, milliseconds, Priority) values (?,?,?,?,?,?,?, 'Normal')");
+                "INSERT INTO `" + tickets + "`(`UUID`, `Error`, `Message`, `Completed`, `Assigned`, `Date`, `milliseconds`, `Priority`) VALUES (?,?,?,?,?,?,?,?)");
         ps.setString(1, uuid.toString());
-        ps.setInt(2, error);
+        ps.setInt(2, errorNum);
         ps.setString(3, msg);
         ps.setString(4, "Open");
         ps.setString(5, AssignTickets.assignTicket(p));
         ps.setDate(6, new java.sql.Date(new java.util.Date().getTime()));
         ps.setLong(7, System.currentTimeMillis());
+        ps.setString(8, "Normal");
         ps.executeUpdate();
         LogToFile.log("info", "Added " + uuid.toString() + "'s ticket to the table!");
     }

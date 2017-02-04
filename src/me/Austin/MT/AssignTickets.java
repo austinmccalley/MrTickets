@@ -48,7 +48,7 @@ public class AssignTickets {
         try {
             Statement statement = MySQL.getConnection().createStatement();//Create the statement
 
-            ResultSet result = statement.executeQuery("SELECT * FROM `" + staff + "` ORDER BY `staff`.`tAssigned` ASC;");//The resultset
+            ResultSet result = statement.executeQuery("SELECT * FROM `" + staff + "` ORDER BY `tAssigned` ASC;");//The resultset
             result.next();//Go to the first result
 
             UUIDs = result.getString("UUID");//Set UUIDs to the UUID
@@ -57,12 +57,12 @@ public class AssignTickets {
             PMessage.Message(p, "Your ticket is being handled by " + Bukkit.getPlayer(UUIDu).getName(), "Normal");//Message the player who is handling their ticket
 
 
-            ResultSet result2 = statement.executeQuery("SELECT COUNT(*) FROM " + tickets + " WHERE Assigned='" + UUIDs + "' AND Completed='Open'");//Count all the tickets in the table tickets that are assigned to the handler
+            ResultSet result2 = statement.executeQuery("SELECT COUNT(*) FROM `" + tickets + "` WHERE Assigned='" + UUIDs + "' AND Completed='Open'");//Count all the tickets in the table tickets that are assigned to the handler
             result2.next();//Get the first result
             int tAssigned = result2.getInt(1);//Set the int to the number of tickets
 
             PreparedStatement ps = MySQL.getConnection().prepareStatement(
-                    "UPDATE " + staff + " SET tAssigned = '" + tAssigned + "' WHERE UUID = '" + UUIDs + "'");//Update the staff
+                    "UPDATE `" + staff + "` SET tAssigned = '" + tAssigned + "' WHERE UUID = '" + UUIDs + "'");//Update the staff
 
             ps.executeUpdate();//Execute the update
 
@@ -89,7 +89,7 @@ public class AssignTickets {
 
             Statement statement = MySQL.getConnection().createStatement();//Create a statement
             ResultSet r2 = statement
-                    .executeQuery("SELECT COUNT(*) FROM " + tickets + " WHERE UUID='" + p.getUniqueId().toString() + "'ORDER BY Date DESC;");//Write and execute the query
+                    .executeQuery("SELECT COUNT(*) FROM `" + tickets + "` WHERE UUID='" + p.getUniqueId().toString() + "'ORDER BY Date DESC;");//Write and execute the query
 
             while (r2.next()) {
                 t = r2.getInt(1);//Get the count of tickets
@@ -100,12 +100,11 @@ public class AssignTickets {
             }
 
             ResultSet result = statement.executeQuery(
-                    "SELECT * FROM " + tickets + " WHERE Assigned='" + p.getUniqueId().toString() + "' ORDER BY Date DESC LIMIT " + t + ";");//Query the DB for all the tickets that someone is assigned
+                    "SELECT * FROM `" + tickets + "` WHERE Assigned='" + p.getUniqueId().toString() + "' ORDER BY Date DESC LIMIT " + t + ";");//Query the DB for all the tickets that someone is assigned
 
-            for (int i = 0; i < t; i++) {
-                result.next();
+
+            while (result.next()) {
                 aTickets.put(result.getInt("TicketID"), result.getString("UUID"));//Iterate through all the results and put them into aTickets
-
             }
 
             return aTickets;
@@ -128,7 +127,7 @@ public class AssignTickets {
 
         try {
             Statement statement = MySQL.getConnection().createStatement();//Create the statement
-            ResultSet r2 = statement.executeQuery("SELECT COUNT(*) FROM " + tickets + ";"); //Execute the querry
+            ResultSet r2 = statement.executeQuery("SELECT COUNT(*) FROM `" + tickets + "`;"); //Execute the querry
 
             while (r2.next()) {
                 totalT = r2.getInt(1);//Get the total number

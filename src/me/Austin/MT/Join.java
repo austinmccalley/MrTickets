@@ -28,7 +28,6 @@ import java.util.UUID;
 public class Join implements Listener {
 
     //Tables
-    private static String tickets = Server.getSUUID() + "-tickets";
     private static String staff = Server.getSUUID() + "-staff";
 
     /**
