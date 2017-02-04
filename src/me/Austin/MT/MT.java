@@ -2,8 +2,11 @@ package me.Austin.MT;
 
 import me.Austin.MT.GUIs.AdminGUIManager;
 import me.Austin.MT.GUIs.GUIManager;
-import me.Austin.MT.Managers.*;
+import me.Austin.MT.Managers.ErrorNumGen;
+import me.Austin.MT.Managers.LogToFile;
+import me.Austin.MT.Managers.MySQL;
 import me.Austin.MT.Managers.Objects.Server;
+import me.Austin.MT.Managers.PMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -35,28 +38,34 @@ public class MT extends JavaPlugin {
     public static MT plugin;
     private Logger logger = this.getLogger();
 
+
     public void onEnable() {
+
+
         plugin = this;
+
         logger.info("Setting up MrTickets");
+
         MySQL.connect();
+
         Bukkit.getServer().getPluginManager().registerEvents(new Join(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new GUIManager(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new AdminGUIManager(), this);
+
         Server.setInfo();
-        if (!Server.tablesExists()) {
-            Server.createTable();
-        }
-        System.out.println(Server.getSUUID() + "-tickets");
-        System.out.println(Server.getSUUID() + "-staff");
+
+        Server.createTable();
+
     }
 
     public void onDisable() {
+
         logger.info("Disabling MrTickets");
+
         closeInv();
+
         MySQL.disconnect();
-        tPlayers.clear();
-        AssignTickets.aTickets.clear();
-        ActiveTickets.mAT.clear();
+
         plugin = null;
     }
 

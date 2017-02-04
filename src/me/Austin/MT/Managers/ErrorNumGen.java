@@ -24,9 +24,12 @@ public class ErrorNumGen {
             int num = 0;//Set the int to 0
 
             for (int i = 1; i > 0; i++) {//Loop through this indefinitely until a new number is generated that works
+
+                createErrorNums();
                 Random r = new Random();//Call random
                 int rNumb = r.nextInt(999999) + 1;//Get a random number
                 String lNum = Integer.toString(rNumb);//Get the string version
+
                 if (!(searchBR("ErrorNums.txt", lNum))) {//Check to see if the number has already been used
                     num = rNumb;//Set num to the new number
                     writeNum(lNum);//Write it to the ErrorNums file
@@ -69,7 +72,8 @@ public class ErrorNumGen {
     /**
      * Write the number to ErrorNums.txt
      *
-     * @param num The number you want to write(Could be a string)
+     * @param num
+     *         The number you want to write(Could be a string)
      */
     public static void writeNum(String num) {
         createErrorNums();//Create the file
@@ -86,10 +90,15 @@ public class ErrorNumGen {
     /**
      * Check if the string is already in the file
      *
-     * @param filePath    The file in question
-     * @param searchQuery The string you are searching for
+     * @param filePath
+     *         The file in question
+     * @param searchQuery
+     *         The string you are searching for
+     *
      * @return A boolean whether its in the File or not
-     * @throws IOException In case there is an exception
+     *
+     * @throws IOException
+     *         In case there is an exception
      */
 
     public static boolean searchBR(String filePath, String searchQuery) throws IOException {

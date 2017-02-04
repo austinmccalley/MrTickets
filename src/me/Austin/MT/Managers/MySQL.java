@@ -98,8 +98,7 @@ public class MySQL {
 
             return result.next();
         } catch (SQLException exception) {
-            // exception.printStackTrace();
-
+            exception.printStackTrace();
             PMessage.stackTrace();
         }
 
@@ -114,7 +113,7 @@ public class MySQL {
 
 
             //Ticket Table
-            String sql = "CREATE TABLE `" + sUUID + "-tickets` (\n" +
+            String sql = "CREATE TABLE IF NOT EXISTS `" + sUUID + "-tickets` (\n" +
                     " `TicketID` int(11) NOT NULL AUTO_INCREMENT,\n" +
                     " `UUID` varchar(36) NOT NULL,\n" +
                     " `Error` int(6) NOT NULL,\n" +
@@ -129,7 +128,7 @@ public class MySQL {
             statement.executeUpdate(sql);
 
             //Staff Table
-            String staffTable = "CREATE TABLE `" + sUUID + "-staff` (\n" +
+            String staffTable = "CREATE TABLE IF NOT EXISTS `" + sUUID + "-staff` (\n" +
                     " `staffID` int(11) NOT NULL AUTO_INCREMENT,\n" +
                     " `UUID` varchar(36) NOT NULL,\n" +
                     " `tAssigned` int(11) NOT NULL,\n" +
@@ -138,6 +137,7 @@ public class MySQL {
             statement.executeUpdate(staffTable);
 
         } catch (SQLException e) {
+            e.printStackTrace();
             PMessage.stackTrace();
         }
     }

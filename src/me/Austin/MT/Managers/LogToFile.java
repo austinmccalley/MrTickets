@@ -29,6 +29,7 @@ public class LogToFile {
 
         FileHandler fh = null;
         try {
+
             fh = new FileHandler("log.xml", true);
             logger.addHandler(fh);
             switch (level) {
@@ -59,7 +60,7 @@ public class LogToFile {
                     break;
             }
         } catch (IOException | SecurityException ex1) {
-            logger.log(Level.SEVERE, null, ex1);
+            //logger.log(Level.SEVERE, null, ex1);
         } finally {
             if (fh != null)
                 fh.close();
