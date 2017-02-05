@@ -1,4 +1,4 @@
-package me.Austin.MT;
+package me.Austin.MT.TicketManagers;
 
 import me.Austin.MT.Managers.LogToFile;
 import me.Austin.MT.Managers.MySQL;
@@ -44,7 +44,7 @@ public class TicketOpen {
         ps.setInt(2, errorNum);
         ps.setString(3, msg);
         ps.setString(4, "Open");
-        ps.setString(5, AssignTickets.assignTicket(p));
+        ps.setString(5, AssignTickets.assignTicket(p, false));
         ps.setDate(6, new java.sql.Date(new java.util.Date().getTime()));
         ps.setLong(7, System.currentTimeMillis());
         ps.setString(8, "Normal");

@@ -1,9 +1,10 @@
 package me.Austin.MT.GUIs;
 
-import me.Austin.MT.AssignTickets;
-import me.Austin.MT.ClosedTicketHandler;
+import me.Austin.MT.GUIs.TicketGUIs.TicketsGUI;
 import me.Austin.MT.Managers.PMessage;
-import me.Austin.MT.RecentTickets;
+import me.Austin.MT.TicketManagers.AssignTickets;
+import me.Austin.MT.TicketManagers.ClosedTicketHandler;
+import me.Austin.MT.TicketManagers.RecentTickets;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -136,8 +137,9 @@ public class AdminGUIManager implements Listener {
                         PMessage.stackTrace();
                     }
                 } else if (itemName.equalsIgnoreCase("Welcome!")) {//If the welcome sign is clicked
-                    // Maybe: Daily summary?
-                    //Do nothing for now
+                    TicketsGUI.loadItems(1, p);
+                    p.closeInventory();
+                    p.openInventory(TicketsGUI.ticketsGUI);
                 } else if (itemName.equalsIgnoreCase("Closed Tickets")) { //Closed Tickets
                     Map<Integer, Date> map = ClosedTicketHandler.adminClosedTickets(p);//Set a local map of tickets closed by that user
                     for (Map.Entry<Integer, Date> mapEntry : map.entrySet()) {//For each entry in the map

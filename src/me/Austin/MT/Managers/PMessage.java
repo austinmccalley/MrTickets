@@ -1,5 +1,6 @@
 package me.Austin.MT.Managers;
 
+import me.Austin.MT.TicketManagers.Ticket;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -8,6 +9,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
+
+import java.util.UUID;
 
 /**
  * This class is intended to be use is to format messages to
@@ -53,6 +56,19 @@ public class PMessage {
         }
 
 
+    }
+
+    public static void sendTicketInfo(Player p, Ticket ticket) {
+        Message(p, "Ticket #" + Ticket.ticketID + " submitted by " + Bukkit.getPlayer(UUID.fromString(Ticket.tUUID)).getName() + " on " + Ticket.date + " " + " with the message; \n" + Ticket.msg, "Normal");
+    }
+
+    public static void sendAdminMessage(String msg) {
+        for (Player p1 : Bukkit.getOnlinePlayers()) {
+            if (p1.hasPermission("MrTickets.Admin")) {
+                PMessage.Message(p1, msg, "High");
+            }
+
+        }
     }
 
     /**

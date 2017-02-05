@@ -1,8 +1,10 @@
 package me.Austin.MT.GUIs;
 
-import me.Austin.MT.*;
+import me.Austin.MT.MT;
 import me.Austin.MT.Managers.ErrorNumGen;
 import me.Austin.MT.Managers.PMessage;
+import me.Austin.MT.TicketManagers.ActiveTickets;
+import me.Austin.MT.TicketManagers.ClosedTicketHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

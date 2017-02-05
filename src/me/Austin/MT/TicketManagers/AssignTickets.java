@@ -1,4 +1,4 @@
-package me.Austin.MT;
+package me.Austin.MT.TicketManagers;
 
 import me.Austin.MT.Managers.MySQL;
 import me.Austin.MT.Managers.Objects.Server;
@@ -43,7 +43,7 @@ public class AssignTickets {
      * @return The UUID of the person handling the ticket
      */
 
-    public static String assignTicket(Player p) {
+    public static String assignTicket(Player p, boolean reassign) {
         String UUIDs;//Initialize the string
         try {
             Statement statement = MySQL.getConnection().createStatement();//Create the statement
@@ -54,8 +54,6 @@ public class AssignTickets {
             UUIDs = result.getString("UUID");//Set UUIDs to the UUID
             UUID UUIDu = UUID.fromString(UUIDs);//Get the java UUID from the string
 
-            PMessage.Message(p, "Your ticket is being handled by " + Bukkit.getPlayer(UUIDu).getName(), "Normal");//Message the player who is handling their ticket
-
 
             ResultSet result2 = statement.executeQuery("SELECT COUNT(*) FROM `" + tickets + "` WHERE Assigned='" + UUIDs + "' AND Completed='Open'");//Count all the tickets in the table tickets that are assigned to the handler
             result2.next();//Get the first result
@@ -65,6 +63,11 @@ public class AssignTickets {
                     "UPDATE `" + staff + "` SET tAssigned = '" + tAssigned + "' WHERE UUID = '" + UUIDs + "'");//Update the staff
 
             ps.executeUpdate();//Execute the update
+            if (!reassign) {
+                PMessage.Message(p, "Your ticket is being handled by " + Bukkit.getPlayer(UUIDu).getName(), "Normal");//Message the player who is handling their ticket
+            } else {
+                PMessage.Message(p, "The ticket is now being handeled by " + Bukkit.getPlayer(UUIDu).getName(), "Normal");
+            }
 
             return UUIDs;//Return the UUID in a string
         } catch (SQLException e) {

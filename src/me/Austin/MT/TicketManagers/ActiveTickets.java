@@ -1,4 +1,4 @@
-package me.Austin.MT;
+package me.Austin.MT.TicketManagers;
 
 import me.Austin.MT.Managers.MySQL;
 import me.Austin.MT.Managers.Objects.Server;
