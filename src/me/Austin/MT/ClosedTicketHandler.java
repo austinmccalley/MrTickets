@@ -40,13 +40,17 @@ public class ClosedTicketHandler {
         cTickets.clear();//Clear it to make sure its totally clear
 
         try {
+
             int t = 0;//Initialize the count int
             Statement statement = MySQL.getConnection().createStatement();//Create the statement
+
             ResultSet r2 = statement
                     .executeQuery("SELECT COUNT(*) FROM " + tickets + " WHERE Completed='Closed' AND UUID='" + p.getUniqueId() + "';");//Execute the query
+
             while (r2.next()) {
                 t = r2.getInt(1);//get the count
             }
+
             if (t > 5) {
                 t = 5;//If t is greater than 5 set it back to 5
             }
@@ -102,11 +106,14 @@ public class ClosedTicketHandler {
             for (int i = 0; i < t; i++) {
                 result.next();
                 acTickets.put(result.getInt("TicketID"), result.getDate("Date"));//Add the ticket id and date to the map
+
             }
 
             return acTickets;
+
         } catch (SQLException e) {
             PMessage.stackTrace();
+            e.printStackTrace();
         }
 
         acTickets.put(0,

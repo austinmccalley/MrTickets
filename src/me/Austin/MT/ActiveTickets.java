@@ -16,13 +16,13 @@ import java.util.concurrent.TimeUnit;
  *
  * @author MrMcaustin1
  * @since 1.0
- * @deprecated
  */
 public class ActiveTickets {
 
     //The my active tickets class
     public static HashMap<Integer, Long> mAT = new HashMap<>();
-
+    //Tables
+    private static String tickets = "`" + Server.getSUUID() + "-tickets`";
 
     /**
      * Returns all active tickets from a user
@@ -43,7 +43,7 @@ public class ActiveTickets {
 
             Statement statement = MySQL.getConnection().createStatement();//Create a MySQL statement
             ResultSet r2 = statement
-                    .executeQuery("SELECT COUNT(*) FROM " + Server.sUUID + " ORDER BY Date DESC;");//Query that is executed
+                    .executeQuery("SELECT COUNT(*) FROM " + tickets + " ORDER BY Date DESC;");//Query that is executed
 
             while (r2.next()) {//If you can get a result
                 t = r2.getInt(1);//Get the total numer
@@ -56,7 +56,7 @@ public class ActiveTickets {
             }
 
             ResultSet result = statement.executeQuery(
-                    "SELECT * FROM " + Server.sUUID + " WHERE UUID='" + p.getUniqueId().toString() + "' AND Completed='Open' ORDER BY Date DESC LIMIT " + t + ";");//The query that is executed
+                    "SELECT * FROM " + tickets + " WHERE UUID='" + p.getUniqueId().toString() + "' AND Completed='Open' ORDER BY Date DESC LIMIT " + t + ";");//The query that is executed
 
             for (int i = 0; i < t; i++) {//As long as i is less than t continue through this until i is equal to t
                 result.next();//Next result
@@ -126,7 +126,7 @@ public class ActiveTickets {
 
         try {
             Statement statement = MySQL.getConnection().createStatement();//Create a statement
-            ResultSet r2 = statement.executeQuery("SELECT COUNT(*) FROM " + Server.sUUID + " WHERE UUID= '" + p.getUniqueId() + "';");//resultset
+            ResultSet r2 = statement.executeQuery("SELECT COUNT(*) FROM " + tickets + " WHERE UUID= '" + p.getUniqueId() + "';");//resultset
 
             while (r2.next()) {//If there is a result
                 subT = r2.getInt(1);//Get the value and set subT to it

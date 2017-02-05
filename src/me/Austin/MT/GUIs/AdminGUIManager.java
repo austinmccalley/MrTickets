@@ -58,7 +58,7 @@ public class AdminGUIManager implements Listener {
      *
      * @return The item all fancy like
      */
-    private static ItemStack newItem(Material material, String name, String lore) {
+    public static ItemStack newItem(Material material, String name, String lore) {
         //The item and the item meta
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
@@ -82,11 +82,10 @@ public class AdminGUIManager implements Listener {
         Inventory inv = e.getInventory(); // The inventory opened
 
         //Checks if the inv is the Admin GUI
-        if (inv.getName().equals(defGUI.getName())) {
+        if (inv.getName().equals(defGUI.getName()) && e.getClickedInventory() != null) {
 
             //Make sure they are clicking an item
-            //TODO: Fix this thing that's creating an error when outside of the inv is clicked
-            if (!(e.getCurrentItem().getType() == Material.AIR) || !(e.getCurrentItem().getType() == null)) {
+            if (e.getCurrentItem().getType() != Material.AIR && e.getCurrentItem().getType() != null && e.getCurrentItem().getAmount() != 0) {
 
                 ItemStack item = e.getCurrentItem(); // The item that is clicked
 
@@ -103,7 +102,6 @@ public class AdminGUIManager implements Listener {
 
                     Map<Integer, String> map = AssignTickets.assignedTickets(p);//Set a local map of the assigned tickets of the player
 
-                    System.out.println(map.toString());
 
                     for (Map.Entry<Integer, String> mapEntry : map.entrySet()) {//for each entry in the map
 
