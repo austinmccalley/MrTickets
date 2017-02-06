@@ -2,10 +2,10 @@ package me.Austin.MT.GUIs.TicketGUIs;
 
 import me.Austin.MT.GUIs.AdminGUIManager;
 import me.Austin.MT.Managers.PMessage;
-import me.Austin.MT.TicketManagers.AssignTickets;
-import me.Austin.MT.TicketManagers.EscalateTicket;
-import me.Austin.MT.TicketManagers.Ticket;
-import me.Austin.MT.TicketManagers.TicketClosing;
+import me.Austin.MT.Managers.TicketManagers.AssignTickets;
+import me.Austin.MT.Managers.TicketManagers.EscalateTicket;
+import me.Austin.MT.Managers.TicketManagers.Ticket;
+import me.Austin.MT.Managers.TicketManagers.TicketClosing;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -27,7 +27,6 @@ public class SingleTicketGUI implements Listener {
     //Create the Ticket Inv
     public static Inventory ticketGUI = Bukkit.createInventory(null, 27, ChatColor.GOLD + "Ticket");
 
-
     public static void loadInventory(Ticket inTicket) {
 
         ticket = inTicket;
@@ -37,7 +36,7 @@ public class SingleTicketGUI implements Listener {
         ticketGUI.setItem(4, AdminGUIManager.newItem(Material.EMPTY_MAP, "Ticket Info", "Click me to view the ticket info!"));
         ticketGUI.setItem(19, AdminGUIManager.newItem(Material.EMERALD, ChatColor.GREEN + "Escalate Ticket", "Click me to escalate the ticket!"));
         ticketGUI.setItem(22, AdminGUIManager.newItem(Material.BARRIER, ChatColor.RED + "Toggle Ticket", "Click me to either open or close the ticket!"));
-        ticketGUI.setItem(25, AdminGUIManager.newItem(Material.REDSTONE, ChatColor.DARK_RED + "Assign New Staff Member ", "Click me to assign a new staff member to this ticket."));
+        ticketGUI.setItem(25, AdminGUIManager.newItem(Material.REDSTONE, ChatColor.DARK_RED + "Assign New Staff Member", "Click me to assign a new staff member to this ticket."));
 
 
     }

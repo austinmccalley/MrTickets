@@ -1,4 +1,4 @@
-package me.Austin.MT.TicketManagers;
+package me.Austin.MT.Managers.TicketManagers;
 
 import me.Austin.MT.Managers.MySQL;
 import me.Austin.MT.Managers.Objects.Server;
@@ -46,6 +46,7 @@ public class AssignTickets {
     public static String assignTicket(Player p, boolean reassign) {
         String UUIDs;//Initialize the string
         try {
+
             Statement statement = MySQL.getConnection().createStatement();//Create the statement
 
             ResultSet result = statement.executeQuery("SELECT * FROM `" + staff + "` ORDER BY `tAssigned` ASC;");//The resultset
@@ -66,7 +67,7 @@ public class AssignTickets {
             if (!reassign) {
                 PMessage.Message(p, "Your ticket is being handled by " + Bukkit.getPlayer(UUIDu).getName(), "Normal");//Message the player who is handling their ticket
             } else {
-                PMessage.Message(p, "The ticket is now being handeled by " + Bukkit.getPlayer(UUIDu).getName(), "Normal");
+                PMessage.Message(p, "The ticket is now being handled by a new staff member", "Normal");
             }
 
             return UUIDs;//Return the UUID in a string

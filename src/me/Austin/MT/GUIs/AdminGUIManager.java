@@ -2,9 +2,9 @@ package me.Austin.MT.GUIs;
 
 import me.Austin.MT.GUIs.TicketGUIs.TicketsGUI;
 import me.Austin.MT.Managers.PMessage;
-import me.Austin.MT.TicketManagers.AssignTickets;
-import me.Austin.MT.TicketManagers.ClosedTicketHandler;
-import me.Austin.MT.TicketManagers.RecentTickets;
+import me.Austin.MT.Managers.TicketManagers.AssignTickets;
+import me.Austin.MT.Managers.TicketManagers.ClosedTicketHandler;
+import me.Austin.MT.Managers.TicketManagers.RecentTickets;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

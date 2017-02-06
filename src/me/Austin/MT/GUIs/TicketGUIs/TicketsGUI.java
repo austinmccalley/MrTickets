@@ -3,9 +3,8 @@ package me.Austin.MT.GUIs.TicketGUIs;
 import me.Austin.MT.GUIs.AdminGUIManager;
 import me.Austin.MT.Managers.MySQL;
 import me.Austin.MT.Managers.Objects.Server;
-import me.Austin.MT.Managers.PMessage;
-import me.Austin.MT.TicketManagers.Ticket;
-import me.Austin.MT.TicketManagers.TicketInfo;
+import me.Austin.MT.Managers.Objects.TicketInfo;
+import me.Austin.MT.Managers.TicketManagers.Ticket;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -20,18 +19,16 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by mcaus_000 on 2/4/2017.
  */
 public class TicketsGUI implements Listener {
 
-
     //Create the Ticket Inv
     public static Inventory ticketsGUI = Bukkit.createInventory(null, 54, ChatColor.GOLD + "Tickets");
+    static int pageT = 0;
     //Tables
     private static String tickets = "`" + Server.getSUUID() + "-tickets`";
 
@@ -45,9 +42,9 @@ public class TicketsGUI implements Listener {
      *
      * @return The item all fancy like
      */
-    public static ItemStack newItem(Material material, String name, String lore, int color) {
+    public static ItemStack newItem(Material material, String name, String lore, int color, int amt) {
         //The item and the item meta
-        ItemStack item = new ItemStack(material, 1, (short) color);
+        ItemStack item = new ItemStack(material, amt, (short) color);
         ItemMeta meta = item.getItemMeta();
 
         //Set the item name and lore
@@ -62,12 +59,12 @@ public class TicketsGUI implements Listener {
     }
 
     public static void loadItems(int page, Player p) {
-        Date before = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss:ss");
+        pageT = page;
 
 
         try {
-
+            String sql;
+            Statement statement = MySQL.getConnection().createStatement();
             ticketsGUI.clear();
 
             for (int q = 0; q < 54; q++) {
@@ -76,13 +73,10 @@ public class TicketsGUI implements Listener {
 
             int tempPage = page;
 
-            int pageLimit = (tempPage * 54) - 9;
+            int pageLimit = (tempPage * 54) - (9 * tempPage);
 
             page = tempPage * 54;
 
-
-            String sql;
-            Statement statement = MySQL.getConnection().createStatement();
 
             if (pageLimit <= 45) {
                 sql = "SELECT * FROM " + tickets + " WHERE ticketID<=" + pageLimit + ";";
@@ -103,44 +97,51 @@ public class TicketsGUI implements Listener {
             int j = 0;
             i = (54 - 9) * (tempPage - 1);
 
-
             while (rs.next()) {
                 if (i < pageLimit) {
 
                     Ticket ticket = TicketInfo.getTicket(rs.getInt("TicketID"));
 
-                    if (Ticket.priority.equalsIgnoreCase("Normal") && Ticket.completed.equalsIgnoreCase("Open")) {
-                        ticketsGUI.setItem(j, newItem(Material.STAINED_CLAY, ChatColor.GREEN + "Ticket #" + Ticket.ticketID, "Click me to view the ticket!", 5));
-                    } else if (Ticket.priority.equalsIgnoreCase("High") && Ticket.completed.equalsIgnoreCase("Open")) {
-                        ticketsGUI.setItem(j, newItem(Material.STAINED_CLAY, ChatColor.LIGHT_PURPLE + "Ticket #" + Ticket.ticketID, "Click me to view the ticket!", 2));
+                    //How many responses.
+                    int amt = 1;
 
-                    } else if (Ticket.priority.equalsIgnoreCase("Extreme") && Ticket.completed.equalsIgnoreCase("Open")) {
-                        ticketsGUI.setItem(j, newItem(Material.STAINED_CLAY, ChatColor.DARK_RED + "Ticket #" + Ticket.ticketID, "Click me to view the ticket!", 14));
+                    //Color if player is assigned the ticket
+                    int col = 0;
 
-                    } else if (!Ticket.completed.equalsIgnoreCase("Open")) {
-                        ticketsGUI.setItem(j, newItem(Material.STAINED_CLAY, ChatColor.BLACK + "Ticket #" + Ticket.ticketID, "Click me to view the ticket!", 15));
-
+                    switch (Ticket.priority) {
+                        case "Normal":
+                            col = 5;
+                            break;
+                        case "High":
+                            col = 2;
+                            break;
+                        case "Extreme":
+                            col = 14;
+                            break;
                     }
+
+                    if (!Ticket.completed.equalsIgnoreCase("Open")) {
+                        col = 15;
+                    }
+
+                    String uuid = p.getUniqueId().toString();
+                    if (Ticket.assigned.equals(uuid)) {
+                        col = 4;
+                    }
+
+
+                    ticketsGUI.setItem(j, newItem(Material.STAINED_CLAY, "Ticket #" + Ticket.ticketID, "Click me to view the ticket!", col, amt));
+
+
                 }
                 i++;
                 j++;
             }
 
-            Date now = new Date();
+        } catch (
+                SQLException e)
 
-            long milliBefore = before.getTime();
-            long milliNow = now.getTime();
-
-            long diff = milliNow - milliBefore;
-            double seconds = diff / 1000.0;
-
-            double avg = seconds / pageLimit;
-//            System.out.println(diff);
-//            System.out.println(seconds);
-
-            PMessage.Message(p, "That query took " + seconds + " to complete! Averaging " + avg + " seconds per ticket!", "Normal");
-
-        } catch (SQLException e) {
+        {
             e.printStackTrace();
         }
 
@@ -180,11 +181,11 @@ public class TicketsGUI implements Listener {
 
                     p.openInventory(SingleTicketGUI.ticketGUI);
                 } else if (noColorName.equalsIgnoreCase("Next Page")) {
-                    loadItems(2, p);
+                    loadItems(pageT + 1, p);
                     p.closeInventory();
                     p.openInventory(ticketsGUI);
                 } else if (noColorName.equalsIgnoreCase("Previous Page")) {
-                    loadItems(1, p);
+                    loadItems(pageT - 1, p);
                     p.closeInventory();
                     p.openInventory(ticketsGUI);
                 }

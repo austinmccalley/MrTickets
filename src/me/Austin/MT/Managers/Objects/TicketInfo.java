@@ -1,7 +1,7 @@
-package me.Austin.MT.TicketManagers;
+package me.Austin.MT.Managers.Objects;
 
 import me.Austin.MT.Managers.MySQL;
-import me.Austin.MT.Managers.Objects.Server;
+import me.Austin.MT.Managers.TicketManagers.Ticket;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,6 +39,7 @@ public class TicketInfo {
             Ticket.date = rs.getDate("Date");
             Ticket.msg = rs.getString("Message");
             Ticket.completed = rs.getString("Completed");
+            Ticket.assigned = rs.getString("Assigned");
 
         } catch (SQLException e) {
             e.printStackTrace();

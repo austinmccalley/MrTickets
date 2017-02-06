@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.permissions.Permission;
 
+import java.net.InetAddress;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,6 +30,25 @@ public class Join implements Listener {
 
     //Tables
     private static String staff = Server.getSUUID() + "-staff";
+    private static String users = "`users`";
+
+    private static void addUser(Player p) {
+        try {
+            String local = InetAddress.getLocalHost().getHostAddress();
+            if (!MySQL.tableContainsPlayer(p, "users")) {
+                int admin = 0;
+                if (p.hasPermission(new Permission("MrTickets.Admin"))) {
+                    admin = 1;
+                }
+
+                String sql = "REPLACE INTO `users`(`UserName`, `UUID`, `IP`, `Admin`) VALUES (\"" + p.getName() + "\",\"" + p.getUniqueId() + "\",inet_aton(\"" + local + "\"), " + admin + ");";
+                PreparedStatement ps = MySQL.getConnection().prepareStatement(sql);
+                ps.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * The player joining event, this gets called automatically
@@ -40,7 +60,8 @@ public class Join implements Listener {
     public void playerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();//Get the player who joined
         try {
-            addStaff(p.getUniqueId());//Call the addPlayer function
+            addStaffTable(p.getUniqueId());//Call the addPlayer function
+            addUser(p);
             PMessage.Message(p, "Welcome to the server " + p.getName() + "!", "Normal");//Welcome them to the server
         } catch (SQLException e1) {
             PMessage.stackTrace();
@@ -64,7 +85,7 @@ public class Join implements Listener {
      * @throws SQLException
      *         Just in case MySQL decides to shit itself
      */
-    private void addStaff(UUID uuid) throws SQLException {
+    private void addStaffTable(UUID uuid) throws SQLException {
         Player p = Bukkit.getPlayer(uuid);
 
         if (p.hasPermission(new Permission("MrTickets.Admin"))) {//Checks the player if they have the permission for ticket admin
@@ -97,6 +118,5 @@ public class Join implements Listener {
 
 
     }
-
 
 }

@@ -1,4 +1,4 @@
-package me.Austin.MT.TicketManagers;
+package me.Austin.MT.Managers.TicketManagers;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -14,6 +14,7 @@ public class Ticket implements Serializable {
     static public Date date;
     static public String msg;
     static public String completed;
+    static public String assigned;
 
 
 }

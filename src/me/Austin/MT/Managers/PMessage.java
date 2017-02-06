@@ -1,6 +1,6 @@
 package me.Austin.MT.Managers;
 
-import me.Austin.MT.TicketManagers.Ticket;
+import me.Austin.MT.Managers.TicketManagers.Ticket;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -10,6 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 
+import java.sql.Date;
 import java.util.UUID;
 
 /**
@@ -59,8 +60,18 @@ public class PMessage {
     }
 
     public static void sendTicketInfo(Player p, Ticket ticket) {
-        Message(p, "Ticket #" + Ticket.ticketID + " submitted by " + Bukkit.getPlayer(UUID.fromString(Ticket.tUUID)).getName() + " on " + Ticket.date + " " + " with the message; \n" + Ticket.msg, "Normal");
+        int ticketId = Ticket.ticketID;
+        String uuid = Ticket.tUUID;
+
+        String submitted = Bukkit.getPlayer(UUID.fromString(uuid)).getName();
+
+        Date date = Ticket.date;
+        String msg = Ticket.msg;
+
+
+        Message(p, "Ticket #" + ticketId + " submitted by " + submitted + " on " + date + " " + " with the message; \n" + msg, "Normal");
     }
+
 
     public static void sendAdminMessage(String msg) {
         for (Player p1 : Bukkit.getOnlinePlayers()) {

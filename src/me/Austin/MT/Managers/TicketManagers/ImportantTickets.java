@@ -1,4 +1,4 @@
-package me.Austin.MT.TicketManagers;
+package me.Austin.MT.Managers.TicketManagers;
 
 /**
  * Created by MrMcaustin1 on 12/30/2016 at 5:53 PM.
@@ -17,10 +17,8 @@ package me.Austin.MT.TicketManagers;
     High -> 2
     Extreme -> 3
 
-MultiMap:
-    Key: TickedID
-    Values: UUID, Priority, Date
-     */
+    Use ticket object to sort priority.
+*/
 
 public class ImportantTickets {
 

@@ -1,4 +1,4 @@
-package me.Austin.MT.TicketManagers;
+package me.Austin.MT.Managers.TicketManagers;
 
 import me.Austin.MT.Managers.LogToFile;
 import me.Austin.MT.Managers.MySQL;
