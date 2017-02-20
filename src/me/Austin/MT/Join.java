@@ -24,7 +24,7 @@ import java.util.UUID;
  * This class can handel all functions relating to when a user joins.
  *
  * @author MrMcaustin1
- * @since 1.0
+ * @since 0.0.1
  */
 public class Join implements Listener {
 

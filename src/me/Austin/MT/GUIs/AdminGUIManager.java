@@ -28,7 +28,7 @@ import java.util.UUID;
  * This class manages the Admin Ticket GUI
  *
  * @author MrMcaustin1
- * @since 1.0
+ * @since 0.0.1
  */
 public class AdminGUIManager implements Listener {
 

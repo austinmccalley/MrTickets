@@ -10,7 +10,7 @@ import java.sql.*;
  * This class contains all MySQL functions.
  *
  * @author Unkown someone from Stackoverflow/Spigot
- * @since 1.0
+ * @since 0.0.1
  */
 public class MySQL {
 

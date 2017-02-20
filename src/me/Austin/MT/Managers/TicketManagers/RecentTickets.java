@@ -13,7 +13,7 @@ import java.util.HashMap;
  * This class is to gather the most recent tickets
  *
  * @author MrMcaustin1
- * @since 1.0
+ * @since 0.0.1
  */
 public class RecentTickets {
 

@@ -18,7 +18,7 @@ import java.util.UUID;
  * send to players. No messages shall be sent through console using this.
  *
  * @author MrMcaustin1
- * @since 1.0
+ * @since 0.0.1
  * <p>
  * TODO: SQLException stack trace handler
  * </p>

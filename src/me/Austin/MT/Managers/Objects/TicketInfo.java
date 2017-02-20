@@ -13,7 +13,7 @@ import java.sql.Statement;
  * Used to get all the ticket info and store it as a string. <i>This feature is still a WIP</i>
  *
  * @author MrMcaustin1
- * @since 1.0
+ * @since 0.0.1
  */
 
 public class TicketInfo {

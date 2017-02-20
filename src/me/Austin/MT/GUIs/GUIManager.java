@@ -24,7 +24,7 @@ import java.util.Map.Entry;
  * Default ticket GUI
  *
  * @author MrMcaustin1
- * @since 1.0
+ * @since 0.0.1
  */
 public class GUIManager implements Listener {
 

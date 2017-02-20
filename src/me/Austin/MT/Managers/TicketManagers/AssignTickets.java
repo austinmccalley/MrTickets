@@ -17,12 +17,7 @@ import java.util.UUID;
  * Managing all functions that have to do with assigning tickets ** Being reworked **
  *
  * @author MrMcaustin1
- * @since 1.0
- * <p>
- * <B>
- * TODO: REDO THIS CLASS MAJOR!!!!!
- * </B>
- * </p>
+ * @since 0.0.1
  */
 public class AssignTickets {
 

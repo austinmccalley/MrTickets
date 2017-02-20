@@ -4,9 +4,11 @@ package me.Austin.MT.Managers.TicketManagers;
  * Created by MrMcaustin1 on 12/30/2016 at 5:53 PM.
  * Collection of important tickets
  * This feature will probably be changing soon
+ * <p>
+ * <i> Will be implemented in version 0.0.3
+ * </i>
  *
  * @author MrMcaustin1
- * @since 1.0
  */
    /*
    Notes
@@ -23,8 +25,7 @@ package me.Austin.MT.Managers.TicketManagers;
 public class ImportantTickets {
 
 
-    /*
-
+    /**
      */
 
 

@@ -18,7 +18,7 @@ import java.util.List;
  * Deals with sorting and collecting of closed tickets
  *
  * @author MrMcaustin1
- * @since 1.0
+ * @since 0.0.1
  */
 public class ClosedTicketHandler {
 

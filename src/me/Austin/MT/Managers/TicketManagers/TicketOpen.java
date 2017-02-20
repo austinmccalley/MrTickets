@@ -13,7 +13,7 @@ import java.util.UUID;
  * This class submits a ticket using the implemented MySQL.
  *
  * @author MrMcaustin1
- * @since 1.0
+ * @since 0.0.1
  */
 public class TicketOpen {
     //Tables

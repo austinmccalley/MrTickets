@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  * to the user
  *
  * @author Ibrabel
- * @since 1.0
+ * @since 0.0.1
  */
 public class LogToFile {
 
