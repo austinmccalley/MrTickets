@@ -93,6 +93,7 @@ public class AdminGUIManager implements Listener {
                 String preitemName = item.getItemMeta().getDisplayName(); // Get item name
                 String itemName = ChatColor.stripColor(preitemName);//Remove all the fancy colors
                 e.setCancelled(true); // Prevent collection of items
+                p.closeInventory();
 
                 if (itemName.equalsIgnoreCase("Important Tickets")) {//Important Tickets
                     PMessage.Message(p, ChatColor.RED + "This feature will be implemented in version 0.1.0", "Normal");

@@ -14,7 +14,6 @@ import java.sql.*;
  */
 public class MySQL {
 
-    //TODO: Get these values from a config BEFORE BETA release
     private static String host = "mrtickets.clzj8rdectfm.us-west-2.rds.amazonaws.com";
     private static String port = "3306";
     private static String database = "Servers";
@@ -33,7 +32,6 @@ public class MySQL {
                 con = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, username,
                         password);
                 console.sendMessage("[MrTickets] Connected to MySQL!!");
-                LogToFile.log("info", "Connected to MySQL");
             } catch (SQLException e) {
                 e.printStackTrace();
 
@@ -50,7 +48,6 @@ public class MySQL {
             try {
                 con.close();
                 console.sendMessage("[MrTickets] Disconnected from MySQL!!");
-                LogToFile.log("info", "Disconnected from MySQL");
             } catch (SQLException e) {
                 e.printStackTrace();
 

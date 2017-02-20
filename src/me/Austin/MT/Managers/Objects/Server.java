@@ -2,14 +2,11 @@ package me.Austin.MT.Managers.Objects;
 
 import me.Austin.MT.Managers.LogToFile;
 import me.Austin.MT.Managers.MySQL;
-import me.Austin.MT.Managers.PMessage;
 import me.Austin.MT.Managers.ServerUUID;
 
 import java.io.*;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.net.InetAddress;
+import java.sql.*;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,9 +19,7 @@ public class Server implements Serializable {
 
     public static UUID sUUID;
     public static String randomWord;
-
-
-
+    public static String ipAdd;
 
     public static void setInfo() {
         createServerInfo();
@@ -33,15 +28,30 @@ public class Server implements Serializable {
         randomWord = ServerUUID.generateRandomWord(5);
         sUUID = ServerUUID.generateServerUUID(randomWord);
 
-
         if (!containsUUID()) {
             createServerInfo();
             writeSUUID(String.valueOf(sUUID));
             writeSUUID(randomWord);
             MySQL.createServerTable(String.valueOf(getSUUID()));
+            setServerInfoTable(sUUID, randomWord);
+
         }
 
 
+    }
+
+    private static void setServerInfoTable(UUID uuid, String rndWrd) {
+        try {
+            String ipAdd = InetAddress.getLocalHost().getHostAddress();
+
+            String sql = "REPLACE INTO `Servers`(`UUID`, `IP`, `RndWrd`) VALUES (\"" + uuid.toString() + "\", inet_aton(\"" + ipAdd + "\"), \"" + rndWrd + "\");";
+            PreparedStatement ps = MySQL.getConnection().prepareStatement(sql);
+            ps.executeUpdate();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -54,6 +64,7 @@ public class Server implements Serializable {
           * method would return true or if the file is
 	      * already present it would return false
 	      */
+
             boolean fvar = file.createNewFile();
             if (fvar) {
                 LogToFile.log("Config", "ServerInfo.txt was created");
@@ -113,6 +124,7 @@ public class Server implements Serializable {
 
 
     public static String getSUUID() {
+        createServerInfo();
 
         try {
             InputStream is = new FileInputStream("ServerInfo.txt");
@@ -183,12 +195,13 @@ public class Server implements Serializable {
             ResultSet rs;
 
             rs = md.getTables(null, null, getSUUID(), null);
+            System.out.println(rs.next());
 
             return rs.next();
 
         } catch (SQLException e) {
             e.printStackTrace();
-            PMessage.stackTrace();
+            //  PMessage.stackTrace();
         }
         return true;
     }
