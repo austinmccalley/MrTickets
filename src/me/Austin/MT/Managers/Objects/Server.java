@@ -20,31 +20,47 @@ public class Server implements Serializable {
     public static UUID sUUID;
     public static String randomWord;
     public static String ipAdd;
+    public static String plan;
 
     public static void setInfo() {
+
+        writePlan();
+
         createServerInfo();
 
 
         randomWord = ServerUUID.generateRandomWord(5);
         sUUID = ServerUUID.generateServerUUID(randomWord);
+        plan = getPlan();
 
         if (!containsUUID()) {
             createServerInfo();
             writeSUUID(String.valueOf(sUUID));
             writeSUUID(randomWord);
             MySQL.createServerTable(String.valueOf(getSUUID()));
-            setServerInfoTable(sUUID, randomWord);
+            setServerInfoTable(sUUID, randomWord, plan);
 
         }
-
+        updatePlan(plan, getSUUID());
 
     }
 
-    private static void setServerInfoTable(UUID uuid, String rndWrd) {
+    private static void updatePlan(String plan, String uuid) {
+        try {
+            String sql = "UPDATE `Servers` SET `Plan` = \"" + plan + "\" WHERE `UUID` = \"" + uuid + "\";";
+            PreparedStatement ps = MySQL.getConnection().prepareStatement(sql);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private static void setServerInfoTable(UUID uuid, String rndWrd, String plan) {
         try {
             String ipAdd = InetAddress.getLocalHost().getHostAddress();
 
-            String sql = "REPLACE INTO `Servers`(`UUID`, `IP`, `RndWrd`) VALUES (\"" + uuid.toString() + "\", inet_aton(\"" + ipAdd + "\"), \"" + rndWrd + "\");";
+            String sql = "REPLACE INTO `Servers`(`UUID`, `IP`, `RndWrd`, `Plan`) VALUES (\"" + uuid.toString() + "\", inet_aton(\"" + ipAdd + "\"), \"" + rndWrd + "\", \"" + plan + "\");";
             PreparedStatement ps = MySQL.getConnection().prepareStatement(sql);
             ps.executeUpdate();
 
@@ -93,6 +109,22 @@ public class Server implements Serializable {
         outS.close();
     }
 
+    /**
+     * Write the plan to ServerInfo.txt
+     */
+    public static void writePlan() {
+        if (!containsPlan()) {
+            createServerInfo();//Create the file
+            PrintWriter outS = null;//Set the printwriter ot null
+            try {
+                outS = new PrintWriter(new FileOutputStream(("ServerInfo.txt"), true));//Try to get the opportunity to write
+            } catch (FileNotFoundException fnfe) {
+                fnfe.printStackTrace();//File cant be found, this should never occur
+            }
+            outS.print("Plan: Free" + "\n");//Write the number and then go to the next line
+            outS.close();
+        }
+    }
 
     public static boolean containsUUID() {
 
@@ -122,6 +154,32 @@ public class Server implements Serializable {
         return false;
     }
 
+    public static boolean containsPlan() {
+        try {
+            InputStream is = new FileInputStream("ServerInfo.txt");
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+            String line = br.readLine();
+            StringBuilder sb = new StringBuilder();
+
+            while (line != null) {
+                sb.append(line).append("\n");
+                line = br.readLine();
+            }
+
+            String fileAsString = sb.toString();
+
+            Matcher m = Pattern.compile(".*Plan: (.*)").matcher(fileAsString);
+
+            return m.find();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return false;
+    }
 
     public static String getSUUID() {
         createServerInfo();
@@ -204,5 +262,31 @@ public class Server implements Serializable {
             //  PMessage.stackTrace();
         }
         return true;
+    }
+
+    public static String getPlan() {
+        try {
+            InputStream is = new FileInputStream("ServerInfo.txt");
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+            String line = br.readLine();
+            StringBuilder sb = new StringBuilder();
+
+            while (line != null) {
+                sb.append(line).append("\n");
+                line = br.readLine();
+            }
+
+            String fileAsString = sb.toString();
+
+            Matcher m = Pattern.compile(".*Plan: (.*)").matcher(fileAsString);
+            m.find();
+            return m.group(1);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
