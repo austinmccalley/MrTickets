@@ -1,5 +1,8 @@
 # Change Log
 
+## [BETA](https://github.com/mcaustin1/MrTickets/tree/BETA) (2017-02-26)
+[Full Changelog](https://github.com/mcaustin1/MrTickets/compare/v0.0.1...BETA)
+
 ## [v0.0.1](https://github.com/mcaustin1/MrTickets/tree/v0.0.1) (2017-02-20)
 
 
