@@ -31,6 +31,8 @@ import java.util.logging.Logger;
  *
  * @author MrMcaustin1
  * @since 0.0.1
+ * <p>
+ * TODO: Command for admins that return uuid and rndwrd.
  */
 
 
@@ -193,6 +195,13 @@ public class MT extends JavaPlugin {
                             p.openInventory(TicketsGUI.ticketsGUI);
                         } else {
                             PMessage.Message(p, "This is a staff only command!", "High");
+                        }
+                    } else if (args[0].equalsIgnoreCase("registerserver")) {
+                        if (p.isOp()) {
+                            PMessage.Message(p, "Server's UUID: " + Server.getSUUID(), "Normal");
+                            PMessage.Message(p, "Server's RndWrd: " + Server.getRndWrd(), "Normal");
+                        } else {
+                            PMessage.Message(p, "You HAVE to be OP to run this command!", "Extreme");
                         }
                     } else if (!(args.length > 1)) {
                         PMessage.Message(p, "That was not a proper /ticket command format! Please do /ticket ? to view all possible formats!", "High");

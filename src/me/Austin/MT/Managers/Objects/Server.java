@@ -228,9 +228,9 @@ public class Server implements Serializable {
             String fileAsString = sb.toString();
 
             Matcher m = Pattern.compile("[a-z]{5}").matcher(fileAsString);
+            m.find();
 
-
-            return m.group(1);
+            return m.group();
 
 
         } catch (Exception e) {

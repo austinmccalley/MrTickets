@@ -5,7 +5,6 @@ import me.Austin.MT.Managers.MySQL;
 import me.Austin.MT.Managers.Objects.UserInfo;
 import me.Austin.MT.Managers.PMessage;
 import org.bukkit.entity.Player;
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -44,8 +43,8 @@ public class LoginHandler {
                 hashed = rs.getString("Password");
             }
 
-            if (!SignupHandler.checkSignUp(p)) {
-                if (BCrypt.checkpw(s, hashed)) {
+            if (SignupHandler.checkSignUp(p)) {
+                if (hashed.equalsIgnoreCase(SignupHandler.generateHash(s))) {
                     //Correct login
                     loggedIn.add(p);
                     PMessage.Message(p, "Success! You have logged in!", "Normal");
@@ -54,6 +53,8 @@ public class LoginHandler {
                     //Incorrect login
                     PMessage.Message(p, "Incorrect password!", "High");
                 }
+            } else {
+                PMessage.Message(p, "Please sign up before trying to login!", "High");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -64,5 +65,6 @@ public class LoginHandler {
     public static boolean isLoggedIn(Player p) {
         return loggedIn.contains(p);
     }
+
 
 }

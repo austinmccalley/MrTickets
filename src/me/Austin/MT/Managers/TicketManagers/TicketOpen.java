@@ -39,7 +39,7 @@ public class TicketOpen {
         int errorNum = i;
 
         PreparedStatement ps = MySQL.getConnection().prepareStatement(
-                "INSERT INTO `" + tickets + "`(`UUID`, `Error`, `Message`, `Completed`, `Assigned`, `Date`, `milliseconds`, `Priority`) VALUES (?,?,?,?,?,?,?,?)");
+                "INSERT INTO `" + tickets + "`(`UUID`, `Error`, `Message`, `Completed`, `Assigned`, `Date`, `milliseconds`, `Priority`, `tUUID`) VALUES (?,?,?,?,?,?,?,?, ?)");
         ps.setString(1, uuid.toString());
         ps.setInt(2, errorNum);
         ps.setString(3, msg);
@@ -48,6 +48,7 @@ public class TicketOpen {
         ps.setDate(6, new java.sql.Date(new java.util.Date().getTime()));
         ps.setLong(7, System.currentTimeMillis());
         ps.setString(8, "Normal");
+        ps.setString(9, UUID.randomUUID().toString());
         ps.executeUpdate();
         LogToFile.log("info", "Added " + uuid.toString() + "'s ticket to the table!");
     }
