@@ -37,6 +37,9 @@ public class TicketOpen {
     public static void openTicket(Player p, Integer i, String msg) throws SQLException {
         UUID uuid = p.getUniqueId();
         int errorNum = i;
+        UUID rnd = UUID.randomUUID();
+
+        System.out.println(rnd);
 
         PreparedStatement ps = MySQL.getConnection().prepareStatement(
                 "INSERT INTO `" + tickets + "`(`UUID`, `Error`, `Message`, `Completed`, `Assigned`, `Date`, `milliseconds`, `Priority`, `tUUID`) VALUES (?,?,?,?,?,?,?,?, ?)");
@@ -48,7 +51,7 @@ public class TicketOpen {
         ps.setDate(6, new java.sql.Date(new java.util.Date().getTime()));
         ps.setLong(7, System.currentTimeMillis());
         ps.setString(8, "Normal");
-        ps.setString(9, UUID.randomUUID().toString());
+        ps.setString(9, rnd.toString());
         ps.executeUpdate();
         LogToFile.log("info", "Added " + uuid.toString() + "'s ticket to the table!");
     }

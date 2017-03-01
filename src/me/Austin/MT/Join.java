@@ -91,9 +91,9 @@ public class Join implements Listener {
         if (p.hasPermission(new Permission("MrTickets.Admin"))) {//Checks the player if they have the permission for ticket admin
             if (!MySQL.tableContainsPlayer(p, staff)) {//Checks if the staff table doesn't contains the player
 
-                System.out.println("INSERT INTO `" + staff + "` (`UUID`, `tAssigned`) VALUES (`" + uuid.toString() + "`, 0)");
+                System.out.println("INSERT INTO `" + staff + "` (`UUID`, `tAssigned`, `tClosed`) VALUES ('" + uuid.toString() + "', 0, 0)");
                 PreparedStatement ps = MySQL.getConnection()
-                        .prepareStatement("INSERT INTO `" + staff + "`(`UUID`, `tAssigned`) VALUES ('" + uuid.toString() + "',0)");//Prepared statement
+                        .prepareStatement("INSERT INTO `" + staff + "` (`UUID`, `tAssigned`, `tClosed`) VALUES ('" + uuid.toString() + "', 0, 0)");//Prepared statement
                 ps.executeUpdate();//Execute the update
 
                 Statement statement = MySQL.getConnection().createStatement();//Create a statement

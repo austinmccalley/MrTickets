@@ -120,17 +120,20 @@ public class MySQL {
                     " `Date` date NOT NULL,\n" +
                     " `milliseconds` bigint(255) NOT NULL,\n" +
                     " `Priority` text NOT NULL,\n" +
+                    " `tUUID` varchar(45) NOT NULL,\n" +
                     " PRIMARY KEY (`TicketID`)\n" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=latin1";
             statement.executeUpdate(sql);
 
             //Staff Table
             String staffTable = "CREATE TABLE IF NOT EXISTS `" + sUUID + "-staff` (\n" +
-                    " `staffID` int(11) NOT NULL AUTO_INCREMENT,\n" +
-                    " `UUID` varchar(36) NOT NULL,\n" +
+                    "`staffID` int(11) NOT NULL AUTO_INCREMENT, \n" +
+                    "`UUID` varchar(36) NOT NULL,\n" +
                     " `tAssigned` int(11) NOT NULL,\n" +
-                    " PRIMARY KEY (`staffID`)\n" +
-                    ") ENGINE=InnoDB DEFAULT CHARSET=latin1\n";
+                    "`tClosed` int(11) DEFAULT NULL,\n" +
+                    " PRIMARY KEY (`staffID`)\n " +
+                    ") ENGINE=InnoDB DEFAULT CHARSET=latin1;";
+
             statement.executeUpdate(staffTable);
 
         } catch (SQLException e) {

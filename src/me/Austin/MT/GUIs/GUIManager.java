@@ -79,7 +79,6 @@ public class GUIManager implements Listener {
         if (inv.getName().equals(defGUI.getName())) {
 
             //Make sure they are clicking an item
-            //TODO: Fix this thing that's creating an error when outside of the inv is clicked
             if (!(e.getCurrentItem().getType() == Material.AIR) || !(e.getCurrentItem().getType() == null)) {
 
                 ItemStack item = e.getCurrentItem(); // The item that was clicked

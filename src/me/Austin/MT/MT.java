@@ -31,8 +31,6 @@ import java.util.logging.Logger;
  *
  * @author MrMcaustin1
  * @since 0.0.1
- * <p>
- * TODO: Command for admins that return uuid and rndwrd.
  */
 
 
@@ -109,7 +107,7 @@ public class MT extends JavaPlugin {
                         if (args.length == 2) {
                             SignupHandler.signUp(p, args[1]);
                         } else {
-                            PMessage.Message(p, "Please specify a password to sign up with", "High");
+                            PMessage.Message(p, "Please specify a password to sign up with!", "High");
                         }
 
 
@@ -117,12 +115,17 @@ public class MT extends JavaPlugin {
                         if (args.length == 2) {
                             LoginHandler.login(p, args[1]);
                         } else {
-                            PMessage.Message(p, "Please specify a password to login with", "High");
+                            PMessage.Message(p, "Please specify a password to login with!", "High");
                         }
                     }
 
                 } else {
-                    PMessage.Message(p, "Please login/signup before using the /ticket command!", "High");
+                    if (SignupHandler.checkSignUp(p)) {
+
+                        PMessage.Message(p, "Please login before using any MrTickets command!", "High");
+                    } else {
+                        PMessage.Message(p, "Please sign up and then login before using any MrTickets command!", "High");
+                    }
                 }
             } else {
                 if (args.length == 0) {
