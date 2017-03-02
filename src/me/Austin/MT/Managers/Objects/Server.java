@@ -20,7 +20,16 @@ public class Server implements Serializable {
     public static UUID sUUID;
     public static String randomWord;
     public static String ipAdd;
+    public static int id;
     public static String plan;
+
+    public static Server getServer() {
+        Server server = new Server();
+
+        setInfo();
+
+        return server;
+    }
 
     public static void setInfo() {
 
@@ -29,17 +38,23 @@ public class Server implements Serializable {
         createServerInfo();
 
 
-        randomWord = ServerUUID.generateRandomWord(5);
-        sUUID = ServerUUID.generateServerUUID(randomWord);
-        plan = getPlan();
-
         if (!containsUUID()) {
+            randomWord = ServerUUID.generateRandomWord(5);
+            sUUID = ServerUUID.generateServerUUID(randomWord);
+            plan = getPlan();
+            id = getId(getSUUID());
+
             createServerInfo();
             writeSUUID(String.valueOf(sUUID));
             writeSUUID(randomWord);
             MySQL.createServerTable(String.valueOf(getSUUID()));
             setServerInfoTable(sUUID, randomWord, plan);
 
+        } else {
+            randomWord = getRndWrd();
+            sUUID = UUID.fromString(getSUUID());
+            plan = getPlan();
+            id = getId(getSUUID());
         }
         updatePlan(plan, getSUUID());
 
@@ -55,6 +70,18 @@ public class Server implements Serializable {
         }
     }
 
+    private static int getId(String uuid) {
+        try {
+            String sql = "SELECT * FROM Servers.Servers WHERE UUID = \"" + uuid + "\";";
+            ResultSet rs = MySQL.getConnection().createStatement().executeQuery(sql);
+            rs.next();
+
+            return rs.getInt("idServers");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
     private static void setServerInfoTable(UUID uuid, String rndWrd, String plan) {
         try {

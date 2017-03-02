@@ -4,6 +4,8 @@ import me.Austin.MT.Managers.ErrorNumGen;
 import me.Austin.MT.Managers.LogToFile;
 import me.Austin.MT.Managers.MySQL;
 import me.Austin.MT.Managers.Objects.Server;
+import me.Austin.MT.Managers.Objects.User;
+import me.Austin.MT.Managers.Objects.UserInfo;
 import me.Austin.MT.Managers.PMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -41,7 +43,7 @@ public class Join implements Listener {
                     admin = 1;
                 }
 
-                String sql = "REPLACE INTO `users`(`UserName`, `UUID`, `IP`, `Admin`) VALUES (\"" + p.getName() + "\",\"" + p.getUniqueId() + "\",inet_aton(\"" + local + "\"), " + admin + ");";
+                String sql = "REPLACE INTO " + users + "(`UserName`, `UUID`, `IP`, `Admin`) VALUES (\"" + p.getName() + "\",\"" + p.getUniqueId() + "\",inet_aton(\"" + local + "\"), " + admin + ");";
                 PreparedStatement ps = MySQL.getConnection().prepareStatement(sql);
                 ps.executeUpdate();
             }
@@ -91,7 +93,7 @@ public class Join implements Listener {
         if (p.hasPermission(new Permission("MrTickets.Admin"))) {//Checks the player if they have the permission for ticket admin
             if (!MySQL.tableContainsPlayer(p, staff)) {//Checks if the staff table doesn't contains the player
 
-                System.out.println("INSERT INTO `" + staff + "` (`UUID`, `tAssigned`, `tClosed`) VALUES ('" + uuid.toString() + "', 0, 0)");
+                //  System.out.println("INSERT INTO `" + staff + "` (`UUID`, `tAssigned`, `tClosed`) VALUES ('" + uuid.toString() + "', 0, 0)");
                 PreparedStatement ps = MySQL.getConnection()
                         .prepareStatement("INSERT INTO `" + staff + "` (`UUID`, `tAssigned`, `tClosed`) VALUES ('" + uuid.toString() + "', 0, 0)");//Prepared statement
                 ps.executeUpdate();//Execute the update
@@ -105,6 +107,7 @@ public class Join implements Listener {
                 LogToFile.log("info", "Added " + uuid.toString() + " to the table! There staff number is #" + staffID);//Logs the staff addition
                 PMessage.Message(p, "You have been added to the staff list. Please memorize your staff number, it is #"
                         + Integer.toString(staffID), "Normal");//Messages them what there staff number is(Staff number still has no use)
+                addStaff(p);
             } else {
 
                 Statement statement = MySQL.getConnection().createStatement();//Create a statement
@@ -113,10 +116,29 @@ public class Join implements Listener {
                 result.next();
                 int staffID = result.getInt("staffID");
                 PMessage.Message(p, "Just as a reminder your staff number is #" + staffID, "Normal");//message them their staff id
+                addStaff(p);
             }
         }
 
 
+    }
+
+    private void addStaff(Player p) {
+        try {
+
+            User user = UserInfo.getUser(p.getUniqueId().toString());
+            int uid = user.userID;
+
+            Server server = Server.getServer();
+            int sid = Server.id;
+
+            PreparedStatement ps = MySQL.getConnection().prepareStatement("INSERT IGNORE INTO `UserAdmin` (`User`,`Server`) VALUES (" + uid + ", " + sid + ")");
+            ps.executeUpdate();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
