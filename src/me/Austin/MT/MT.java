@@ -39,7 +39,6 @@ public class MT extends JavaPlugin {
     public static MT plugin;
     private Logger logger = this.getLogger();
 
-
     public void onEnable() {
 
         if (!getServer().getOnlineMode()) {
@@ -47,12 +46,13 @@ public class MT extends JavaPlugin {
             Bukkit.getPluginManager().disablePlugin(this);
         }
 
-
         plugin = this;
 
         logger.info("Setting up MrTickets");
 
         MySQL.connect();
+
+        Server.createTable();
 
         Bukkit.getServer().getPluginManager().registerEvents(new Join(), this);
 
@@ -63,8 +63,8 @@ public class MT extends JavaPlugin {
 
         Server.setInfo();
 
-        Server.createTable();
-
+        ConsoleLogger.setLogger(getLogger());
+        ConsoleLogger.setupConsoleFilter(getLogger());
     }
 
     public void onDisable() {
@@ -77,6 +77,7 @@ public class MT extends JavaPlugin {
 
         plugin = null;
     }
+
 
     private void closeInv() {
         Bukkit.getOnlinePlayers().forEach((p) -> p.closeInventory());
@@ -121,10 +122,9 @@ public class MT extends JavaPlugin {
 
                 } else {
                     if (SignupHandler.checkSignUp(p)) {
-
-                        PMessage.Message(p, "Please login before using any MrTickets command!", "High");
+                        PMessage.Message(p, "Please login before using any MrTickets command! The command is /ticket login <password>", "High");
                     } else {
-                        PMessage.Message(p, "Please sign up and then login before using any MrTickets command!", "High");
+                        PMessage.Message(p, "Please sign up and then login before using any MrTickets command! The command is /ticket signup <password>", "High");
                     }
                 }
             } else {
@@ -185,7 +185,7 @@ public class MT extends JavaPlugin {
                         }
                     } else if (args[0].equalsIgnoreCase("id")) {
                         //TODO: Normal and Staff Version
-                        if (args[1] != null) {
+                        if (args[1] != null || (args.length == 2)) {
                             Ticket ticket = TicketInfo.getTicket(Integer.valueOf(args[1]));
                             PMessage.sendTicketInfo(p, ticket);
                         } else {

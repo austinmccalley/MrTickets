@@ -72,10 +72,9 @@ public class Server implements Serializable {
 
     private static int getId(String uuid) {
         try {
-            String sql = "SELECT * FROM Servers.Servers WHERE UUID = \"" + uuid + "\";";
+            String sql = "SELECT * FROM Servers WHERE UUID = \"" + uuid + "\";";
             ResultSet rs = MySQL.getConnection().createStatement().executeQuery(sql);
             rs.next();
-
             return rs.getInt("idServers");
         } catch (SQLException e) {
             e.printStackTrace();

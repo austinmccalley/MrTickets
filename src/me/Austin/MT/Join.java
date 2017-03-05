@@ -93,34 +93,36 @@ public class Join implements Listener {
         if (p.hasPermission(new Permission("MrTickets.Admin"))) {//Checks the player if they have the permission for ticket admin
             if (!MySQL.tableContainsPlayer(p, staff)) {//Checks if the staff table doesn't contains the player
 
-                //  System.out.println("INSERT INTO `" + staff + "` (`UUID`, `tAssigned`, `tClosed`) VALUES ('" + uuid.toString() + "', 0, 0)");
                 PreparedStatement ps = MySQL.getConnection()
                         .prepareStatement("INSERT INTO `" + staff + "` (`UUID`, `tAssigned`, `tClosed`) VALUES ('" + uuid.toString() + "', 0, 0)");//Prepared statement
                 ps.executeUpdate();//Execute the update
 
-                Statement statement = MySQL.getConnection().createStatement();//Create a statement
-                ResultSet result = statement
-                        .executeQuery("SELECT `staffID` FROM " + staff + " WHERE UUID = '" + uuid.toString() + "'");//Get the players staffID
-                result.next();
-                int staffID = result.getInt("staffID");//Set the staffID to the int staffId
+                //    int staffID = getStaffID(uuid.toString());
 
-                LogToFile.log("info", "Added " + uuid.toString() + " to the table! There staff number is #" + staffID);//Logs the staff addition
-                PMessage.Message(p, "You have been added to the staff list. Please memorize your staff number, it is #"
-                        + Integer.toString(staffID), "Normal");//Messages them what there staff number is(Staff number still has no use)
+                LogToFile.log("info", "Added " + uuid.toString() + " to the table! ");//Logs the staff addition
+
                 addStaff(p);
             } else {
 
-                Statement statement = MySQL.getConnection().createStatement();//Create a statement
-                ResultSet result = statement
-                        .executeQuery("SELECT staffID FROM `" + staff + "` WHERE UUID = '" + uuid.toString() + "'");//Get the players staffID
-                result.next();
-                int staffID = result.getInt("staffID");
-                PMessage.Message(p, "Just as a reminder your staff number is #" + staffID, "Normal");//message them their staff id
                 addStaff(p);
             }
         }
 
 
+    }
+
+    private int getStaffID(String uuid) {
+        try {
+            Statement statement = MySQL.getConnection().createStatement();//Create a statement
+            ResultSet result = statement
+                    .executeQuery("SELECT `staffID` FROM " + staff + " WHERE UUID = '" + uuid.toString() + "'");//Get the players staffID
+            result.next();
+            int staffID = result.getInt("staffID");//Set the staffID to the int staffId
+            return staffID;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     private void addStaff(Player p) {
@@ -132,9 +134,12 @@ public class Join implements Listener {
             Server server = Server.getServer();
             int sid = Server.id;
 
-            PreparedStatement ps = MySQL.getConnection().prepareStatement("INSERT IGNORE INTO `UserAdmin` (`User`,`Server`) VALUES (" + uid + ", " + sid + ")");
-            ps.executeUpdate();
+            String sql = "INSERT IGNORE INTO `UserAdmin` (`User`,`Server`) VALUES (" + uid + ", " + sid + ")";
 
+
+            PreparedStatement ps = MySQL.getConnection().prepareStatement(sql);
+            ps.executeUpdate();
+//TODO: Get correct server id
 
         } catch (SQLException e) {
             e.printStackTrace();
