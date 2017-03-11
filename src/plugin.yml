@@ -1,5 +1,5 @@
 name: MrTickets
-version: 0.0.2
+version: 1.0.0
 description: Ticket Managing Software
 author: MrMcaustin1
 main: me.Austin.MT.MT
@@ -7,3 +7,4 @@ website: https://gitlab.com/MrMcaustin1/MrTickets
 prefix: MrT
 commands:
       ticket:
+        description: The MrTickets ticket command

@@ -41,6 +41,7 @@ public class SignupHandler {
                 ps.executeUpdate();
 
                 PMessage.Message(p, "Success! You have officially signed up! Now please login with the command /ticket login <Password>", "Normal");
+                System.out.println("[MrT] User " + p.getName() + " has officially signed up!");
             } else {
                 PMessage.Message(p, "You already have signed up!", "High");
             }

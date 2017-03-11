@@ -1,6 +1,5 @@
 package me.Austin.MT.Managers.LoginHandlers;
 
-import me.Austin.MT.Managers.LogToFile;
 import me.Austin.MT.Managers.MySQL;
 import me.Austin.MT.Managers.Objects.UserInfo;
 import me.Austin.MT.Managers.PMessage;
@@ -48,7 +47,7 @@ public class LoginHandler {
                     //Correct login
                     loggedIn.add(p);
                     PMessage.Message(p, "Success! You have logged in!", "Normal");
-                    LogToFile.log("Config", p.getName() + " has logged in!");
+                    System.out.println("[MrT] User " + p.getName() + " has logged in!");
                 } else {
                     //Incorrect login
                     PMessage.Message(p, "Incorrect password!", "High");

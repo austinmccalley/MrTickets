@@ -8,6 +8,7 @@ import me.Austin.MT.Managers.ErrorNumGen;
 import me.Austin.MT.Managers.LogToFile;
 import me.Austin.MT.Managers.LoginHandlers.LoginHandler;
 import me.Austin.MT.Managers.LoginHandlers.SignupHandler;
+import me.Austin.MT.Managers.Metrics.Metrics;
 import me.Austin.MT.Managers.MySQL;
 import me.Austin.MT.Managers.Objects.Server;
 import me.Austin.MT.Managers.Objects.TicketInfo;
@@ -65,6 +66,8 @@ public class MT extends JavaPlugin {
 
         ConsoleLogger.setLogger(getLogger());
         ConsoleLogger.setupConsoleFilter(getLogger());
+
+        Metrics.setupMetrics(this);
     }
 
     public void onDisable() {
